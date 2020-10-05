@@ -1,0 +1,16 @@
+.header {
+  background-color: whitesmoke;
+  height: 49px;
+  border-bottom: solid thin #e5e5e5;
+  padding-left: 10px;
+  padding-right: 10px;
+  img {
+    height: 35px;
+  }
+  input,
+  button[type="submit"] {
+    font-weight: light;
+    height: 30px;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,17 @@
+<div class="full-height">
+  <div style="height: 50px">
+    <app-header></app-header>
+  </div>
+  <div
+    style="
+      height: calc(100vh - 70px);
+      max-height: calc(100vh - 70px);
+      overflow: auto;
+    "
+  >
+    <router-outlet></router-outlet>
+  </div>
+  <div style="height: 20px">
+    <app-footer></app-footer>
+  </div>
+</div>
