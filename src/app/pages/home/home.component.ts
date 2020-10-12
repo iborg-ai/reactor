@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
         } else {
           for (let chart of this.charts) {
             chart.data.labels.push("");
-            chart.data.datasets[0].data.push(eeg.rawEeg[0]);
+            chart.data.datasets[0].data.push(eeg.rawEeg);
             if (chart.data.datasets[0].data.length > 25) {
               chart.data.datasets[0].data.shift();
               chart.data.labels.shift();
@@ -53,10 +53,10 @@ export class HomeComponent implements OnInit {
           yAxes: [
             {
               ticks: {
-                min: 0,
-                max: 1,
-                beginAtZero: true,
-                stepSize: 0.1,
+                min: -1500,
+                max: 1500,
+                beginAtZero: false,
+                stepSize: 20,
               },
             },
           ],
