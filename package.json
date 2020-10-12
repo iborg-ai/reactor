@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve --host 127.0.0.1 --port 4200 -o",
     "prettify": "prettier --write src",
-    "build": "ng build --prod"
+    "build": "ng build --prod",
+    "build-github": "ng build --prod --base-href reactor --deploy-url reactor"
   },
   "private": true,
   "dependencies": {
