@@ -9,6 +9,7 @@ declare let Chart: any;
 })
 export class HomeComponent implements OnInit {
   public charts = [];
+  public channels = 0;
 
   constructor(private bridge: BridgeService) {}
 
@@ -18,19 +19,24 @@ export class HomeComponent implements OnInit {
         if (this.charts.length === 0) {
           this.createNewChart(1, eeg.rawEeg.length);
           this.createNewChart(2, eeg.rawEeg.length);
+          this.channels = eeg.rawEeg.length;
         } else {
-          for (let chart of this.charts) {
-            chart.data.labels.push("");
-            eeg.rawEeg.forEach((e, i) => {
-              chart.data.datasets[i].data.push(e);
-            });
-            if (chart.data.datasets[0].data.length > 25) {
+          if (this.channels === eeg.rawEeg.length) {
+            for (let chart of this.charts) {
+              chart.data.labels.push("");
               eeg.rawEeg.forEach((e, i) => {
-                chart.data.datasets[i].data.shift();
+                chart.data.datasets[i].data.push(e);
               });
-              chart.data.labels.shift();
+              if (chart.data.datasets[0].data.length > 25) {
+                eeg.rawEeg.forEach((e, i) => {
+                  chart.data.datasets[i].data.shift();
+                });
+                chart.data.labels.shift();
+              }
+              chart.update(0);
             }
-            chart.update(0);
+          } else {
+            this.charts = [];
           }
         }
       }
