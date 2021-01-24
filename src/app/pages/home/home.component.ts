@@ -16,25 +16,49 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.bridge.eeg.subscribe((eeg: any) => {
       if (eeg && eeg.rawEeg) {
-        if (this.charts.length === 0) {
+        if (!this.charts[0]) {
           this.createNewChart(1, eeg.rawEeg.length);
+          this.channels = eeg.rawEeg.length;
+        } else {
+          if (this.channels === eeg.rawEeg.length) {
+            let chart = this.charts[0];
+            chart.data.labels.push("");
+            eeg.rawEeg.forEach((e, i) => {
+              chart.data.datasets[i].data.push(e);
+            });
+            if (chart.data.datasets[0].data.length > 25) {
+              eeg.rawEeg.forEach((e, i) => {
+                chart.data.datasets[i].data.shift();
+              });
+              chart.data.labels.shift();
+            }
+            chart.update(0);
+          } else {
+            this.charts = [];
+          }
+        }
+      }
+    });
+
+    this.bridge.averageEeg.subscribe((eeg: any) => {
+      if (eeg && eeg.rawEeg) {
+        if (!this.charts[1]) {
           this.createNewChart(2, eeg.rawEeg.length);
           this.channels = eeg.rawEeg.length;
         } else {
           if (this.channels === eeg.rawEeg.length) {
-            for (let chart of this.charts) {
-              chart.data.labels.push("");
+            let chart = this.charts[1];
+            chart.data.labels.push("");
+            eeg.rawEeg.forEach((e, i) => {
+              chart.data.datasets[i].data.push(e);
+            });
+            if (chart.data.datasets[0].data.length > 25) {
               eeg.rawEeg.forEach((e, i) => {
-                chart.data.datasets[i].data.push(e);
+                chart.data.datasets[i].data.shift();
               });
-              if (chart.data.datasets[0].data.length > 25) {
-                eeg.rawEeg.forEach((e, i) => {
-                  chart.data.datasets[i].data.shift();
-                });
-                chart.data.labels.shift();
-              }
-              chart.update(0);
+              chart.data.labels.shift();
             }
+            chart.update(0);
           } else {
             this.charts = [];
           }
@@ -93,6 +117,6 @@ export class HomeComponent implements OnInit {
         },
       },
     });
-    this.charts.push(chart);
+    this.charts[index - 1] = chart;
   }
 }
