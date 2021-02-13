@@ -20,7 +20,7 @@ export class BridgeService {
     });
 
     this.coreSocket = new WebSocket(
-      "ws://198.168.140.61:3000/?type=web&token=" + new Date().getTime()
+      "wss://iborg.ai/core?type=web&token=" + new Date().getTime()
     );
     this.coreSocket.onmessage = (message) => {
       this.coreData.next(JSON.parse(message.data));
